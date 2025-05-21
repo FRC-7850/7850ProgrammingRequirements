@@ -19,7 +19,7 @@ This document is not currently fully inclusive of all wiring or programming requ
   
   - Yellow wire shall be used for CAN High. 
   
-  - CAN wires shall be terminated using JST SM series connectors, with pins SYM-001T-P0.6 and SHF-001T-0.8BS.  
+  - CAN wires shall be terminated using [JST SM](https://www.jst-mfg.com/product/pdf/eng/eSM.pdf) series connectors, with pins SYM-001T-P0.6 and SHF-001T-0.8BS.  
   
   - CAN wires shall be inserted into the connectors such that CAN Low is Pin 1 and CAN High is Pin 2.  
   
@@ -60,6 +60,7 @@ This document is not currently fully inclusive of all wiring or programming requ
   - CAN IDs 10-19 are reserved for future use.
   - CAN IDs 20-69 are reserved for subsystems.
     - Each subsystem shall use an independent group of 10 IDs
+    - Subsystems shall ID modules and sensors from lowest ID to highest from either Left to Right, Front to Back, Top to Bottom, CCW starting at front, or a combination of the 4 methods, whichever makes most sense.
 
   - The following table shall be followed to assign all CAN IDs.
 
@@ -89,6 +90,45 @@ This document is not currently fully inclusive of all wiring or programming requ
 ## 2. Command Based Programming 
 ### **_Use Command Based Where Possible_**
 
-- Robot shall be programmed in command based programming whenever possible  
+- Robot code shall be written as command based whenever possible  
   - Exceptions will be made on a case by case basis depending on circumstances and programming team's desires  
-- 
+
+### **_Use Smart Subsystems_**
+
+- Subsystems are a group of 2 or more actuators or sensors that can be used together to create complex responses.  
+- Subsystems shall be created for every major functional component of the robot.
+  - Drivetrain will always be its own subsystem.
+- A subsystem class file shall be created for each subsystem on the robot.
+
+### **_Use of Commands_**
+
+- Commands are instructions given to the robot using a subsystem.
+- Commands, for the purpose of this document, are defined into 3 groups:
+  - Complex Commands
+  - Simple Commands
+  - Single Use Commands
+ 
+- Complex commands are commands which require an initialization, execution, and ending action, or a command where we need to know exactly when it ends.
+  - Complex commands shall be written in their own class file stored in the Commands folder.
+- Simple commands are used in the code more than once, and do not meet the requirements of a complex command.
+  - Simple commands shall be written as funtions in the subsystem class file.
+>[!TIP]
+>Simple commands will be structured similarily to this snippet
+> ```
+>  public Command exampleCommand(double speed) {
+>     return runOnce(
+>         () -> {
+>            setSpeed(speed);
+>         });
+>   }
+> ```
+- Single Use commands are used once in the code, and do not meet the requirements of a complex command.
+  - Single Use commands shall be written as a lambda function where it is used.
+>[!TIP]
+>Single Use commands will be structured similarily to this snippet
+> ```
+>   runOnce(
+>      () -> {
+>         setSpeed(0);
+>      });
+> ```
