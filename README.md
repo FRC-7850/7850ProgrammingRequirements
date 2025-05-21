@@ -29,7 +29,7 @@ This document is not currently fully inclusive of all wiring or programming requ
   
   - CAN wires shall be terminated using [JST SM](https://www.jst-mfg.com/product/pdf/eng/eSM.pdf) series connectors, with pins SYM-001T-P0.6 and SHF-001T-0.8BS.  
   
-  - CAN wires shall be inserted into the connectors such that CAN Low is Pin 1 and CAN High is Pin 2.  
+  - CAN wires shall be inserted into the connectors such that CAN High is Pin 1 and CAN Low is Pin 2.  
   
   - CAN circuit shall begin at the RIO or Robot Controller.  
   
@@ -69,6 +69,8 @@ This document is not currently fully inclusive of all wiring or programming requ
   - CAN IDs 20-69 are reserved for subsystems.
     - Each subsystem shall use an independent group of 10 IDs
     - Subsystems shall ID modules and sensors from lowest ID to highest from either Left to Right, Front to Back, Top to Bottom, CCW starting at front, or a combination of the 4 methods, whichever makes most sense.
+   
+- All follower motor controllers shall follow a controller with a lower CAN ID than itself.
 
   - The following table shall be followed to assign all CAN IDs.
 
