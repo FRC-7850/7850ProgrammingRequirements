@@ -5,11 +5,19 @@ Affected users include the students and mentors involved in wiring and programmi
 
 This document is not currently fully inclusive of all wiring or programming requirements. It will focus on programming requirements and electrical requirements for CAN circuits and motor controller peripherals.
 
-1. CAN Requirements
-2. Command Based Programming
-3. To Be Determined
+1. Git Requirements
+2. CAN Requirements
+3. Command Based Programming
+4. To Be Determined
 
-## 1. CAN Requirements
+## 1. Git Requirements
+### **_Use Branches for your changes_**
+- Every change shall be done on a branch off of the main branch
+  - Users shall not push directly to main branch.  
+  - Main branch shall be the latest robot-ready code.
+- Users shall push any changes on the branch they are working on to Github at the end of the day.
+
+## 2. CAN Requirements
 ### **_Wiring Requirements_**  
   - CAN circuits shall be wired with 22 AWG Green and Yellow twisted pair wires.  
   
@@ -87,7 +95,7 @@ This document is not currently fully inclusive of all wiring or programming requ
 >[!NOTE]
 >Any 3rd party products that are installed on the CAN Bus may require a specific CAN ID. In these cases, the programming team must agree on what changes to the CAN ID assignments are needed to accomodate the product.
 
-## 2. Command Based Programming 
+## 3. Command Based Programming 
 ### **_Use Command Based Where Possible_**
 
 - Robot code shall be written as command based whenever possible  
