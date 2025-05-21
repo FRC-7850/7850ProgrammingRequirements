@@ -1,0 +1,94 @@
+# 7850 Programming Requirements
+This document is to provide a standard for programming for Team 7850 based in Coon Rapids, Minnesota. 
+
+Affected users include the students and mentors involved in wiring and programming our team robots, whether for competition or otherwise.
+
+This document is not currently fully inclusive of all wiring or programming requirements. It will focus on programming requirements and electrical requirements for CAN circuits and motor controller peripherals.
+
+1. CAN Requirements
+2. Command Based Programming
+3. To Be Determined
+
+## 1. CAN Requirements
+### **_Wiring Requirements_**  
+  - CAN circuits shall be wired with 22 AWG Green and Yellow twisted pair wires.  
+  
+  - Twisted pair wires shall have at least 2 twists per inch of wire.  
+  
+  - Green wire shall be used for CAN Low.  
+  
+  - Yellow wire shall be used for CAN High. 
+  
+  - CAN wires shall be terminated using JST SM series connectors, with pins SYM-001T-P0.6 and SHF-001T-0.8BS.  
+  
+  - CAN wires shall be inserted into the connectors such that CAN Low is Pin 1 and CAN High is Pin 2.  
+  
+  - CAN circuit shall begin at the RIO or Robot Controller.  
+  
+  - RIO or other Robot controller shall be equipped with a "plug" type connector.  
+
+  - All drive train controllers and any IMUs shall be wired into the CAN circuit immediately after the Robot Controller
+  
+  - CAN circuit shall end at the Power Distribution Panel.  
+  
+  - Power Distribution Panel shall be equipped with a "Recepticle" type connector. 
+
+### **_CAN ID Requirements_**
+
+  - CAN ID 0 shall be reserved for the robot controller.
+  
+  - CAN ID 200 shall be reserved for the Power Distribution Panel.
+  
+  - CAN IDs 1-8 are reserved for the drivetrain.  
+    - All drive motors shall be even CAN IDs.  
+    - All steering motors shall be odd CAN IDs.  
+    - The drive modules shall start with the front-left module with the lowest CAN IDs (1 and 2) and assign CAN IDs working counter clockwise and ending with the front right modules using the highest CAN IDs (7 and 8)
+> [!TIP]
+>  - Example: Tank drive with 2 modules, each with 2 drive motors  
+>    -   Front Left motor uses ID 2  
+>    -   Back Left motor uses ID 4  
+>    -   Back Right motor uses ID 6  
+>    -   Front Right motor uses ID 8
+>      
+> - Example: Swerve drive made of 4 swerve modules, each containing a steering and drive motor  
+>   -   Front Left module uses CAN ID 1 for steer motor, and CAN ID 2 for drive motor  
+>   -   Back Left module uses CAN ID 3 for steer motor, and CAN ID 4 for drive motor  
+>   -   Back Right module uses CAN ID 5 for steer motor, and CAN ID 6 for drive motor  
+>   -   Front Right module uses CAN ID 7 for steer motor, and CAN ID 8 for drive motor
+   
+  - CAN ID 9 is reserved for the IMU or Gyro.
+  - CAN IDs 10-19 are reserved for future use.
+  - CAN IDs 20-69 are reserved for subsystems.
+    - Each subsystem shall use an independent group of 10 IDs
+
+  - The following table shall be followed to assign all CAN IDs.
+
+  |Assigned CAN ID|Module|
+  |:------|--:|
+  |0|Robot Controller|
+  |1|Drivetrain motor (LF Steer)|
+  |2|Drivetrain motor (LF Drive)|
+  |3|Drivetrain motor (LB Steer)|
+  |4|Drivetrain motor (LB Drive)|
+  |5|Drivetrain motor (RB Steer)|
+  |6|Drivetrain motor (RB Drive)|
+  |7|Drivetrain motor (RF Steer)|
+  |8|Drivetrain motor (RF Drive)|
+  |9|IMU/Gyro|
+  |10-19|Reserved|
+  |20-29|Subsystem 1|
+  |30-39|Subsystem 2|
+  |40-49|Subsystem 3|
+  |50-59|Subsystem 4|
+  |60-69|Subsystem 5|
+  |200|Power Distribution Panel|
+
+>[!NOTE]
+>Any 3rd party products that are installed on the CAN Bus may require a specific CAN ID. In these cases, the programming team must agree on what changes to the CAN ID assignments are needed to accomodate the product.
+
+## 2. Command Based Programming 
+### **_Use Command Based Where Possible_**
+
+- Robot shall be programmed in command based programming whenever possible  
+  - Exceptions will be made on a case by case basis depending on circumstances and programming team's desires  
+- 
