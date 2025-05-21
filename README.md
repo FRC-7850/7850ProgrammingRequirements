@@ -137,6 +137,6 @@ This document is not currently fully inclusive of all wiring or programming requ
 > ```
 >   runOnce(
 >      () -> {
->         setSpeed(0);
+>         exampleSubsystem.setSpeed(0);
 >      });
 > ```
