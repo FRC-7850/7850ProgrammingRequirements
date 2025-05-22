@@ -24,8 +24,9 @@ This document is not currently fully inclusive of all wiring or programming requ
 ### **_Wiring Requirements_**  
   - CAN circuits shall be wired with 22 AWG Green and Yellow twisted pair wires.  
   - Twisted pair wires shall have at least 2 twists per inch of wire.
-  - Green wire shall be used for CAN Low.
-  - Yellow wire shall be used for CAN High.
+    - Green wire shall be used for CAN Low.
+    - Yellow wire shall be used for CAN High.
+  - Twisted pair wires shall have at least 2 twists per inch of wire.
   - CAN wires shall be terminated using [JST SM](https://www.jst-mfg.com/product/pdf/eng/eSM.pdf) series connectors, with pins SYM-001T-P0.6 and SHF-001T-0.8BS.
   - CAN wires shall be inserted into the connectors such that CAN High is Pin 1 and CAN Low is Pin 2.
   - CAN circuit shall begin at the RIO or Robot Controller.
@@ -112,28 +113,32 @@ This document is not currently fully inclusive of all wiring or programming requ
   - Complex commands shall be written in their own class file stored in the Commands folder.
 - Simple commands are used in the code more than once, and do not meet the requirements of a complex command.
   - Simple commands shall be written as funtions in the subsystem class file.
->[!TIP]
->Simple commands will be structured similarily to this snippet
-> ```java
->  public Command exampleCommand(double speed) {
->     return runOnce(
->         () -> {
->            setSpeed(speed);
->         });
->   }
-> ```
+
+ ```java
+  public Command driveMotor(double speed) {
+     return runOnce(
+         () -> {
+            setSpeed(speed);
+         });
+   }
+ ```
 - Single Use commands are used once in the code, and do not meet the requirements of a complex command.
   - Single Use commands shall be written as a lambda function where it is used.
->[!TIP]
->Single Use commands will be structured similarily to this snippet
-> ```java
->   runOnce(
->      () -> {
->         exampleSubsystem.setSpeed(0);
->      });
-> ```
+
+ ```java
+   runOnce(
+      () -> {
+         exampleSubsystem.setSpeed(0);
+      });
+ ```
 
 - All subsystems shall have a default command set which will result in no movement when the controller is set down.
+```java
+  public SingleMotorSubsystem() {
+    setDefaultCommand(driveMotor(0));
+  }
+
+```
 >[!TIP]
 >A default command to achieve this may be setting motor speeds to 0, setting motor speed to a joystick axis, or a PID holding the actuator position.
 >
