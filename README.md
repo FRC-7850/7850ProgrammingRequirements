@@ -11,46 +11,38 @@ This document is not currently fully inclusive of all wiring or programming requ
 4. To Be Determined
 
 ## 1. Git Requirements
+  
 ### **_Use Branches for your changes_**
 - Every change shall be done on a branch off of the main branch
-  - Users shall not push directly to main branch.  
+  - Users shall not commit directly to main branch.  
   - Main branch shall be the latest robot-ready code.
 - Users shall push any changes on the branch they are working on to Github at the end of the day.
+</details>
 
 ## 2. CAN Requirements
+  
 ### **_Wiring Requirements_**  
   - CAN circuits shall be wired with 22 AWG Green and Yellow twisted pair wires.  
-  
-  - Twisted pair wires shall have at least 2 twists per inch of wire.  
-  
-  - Green wire shall be used for CAN Low.  
-  
-  - Yellow wire shall be used for CAN High. 
-  
-  - CAN wires shall be terminated using [JST SM](https://www.jst-mfg.com/product/pdf/eng/eSM.pdf) series connectors, with pins SYM-001T-P0.6 and SHF-001T-0.8BS.  
-  
-  - CAN wires shall be inserted into the connectors such that CAN High is Pin 1 and CAN Low is Pin 2.  
-  
-  - CAN circuit shall begin at the RIO or Robot Controller.  
-  
-  - RIO or other Robot controller shall be equipped with a "plug" type connector.  
-
-  - All drive train controllers and any IMUs shall be wired into the CAN circuit immediately after the Robot Controller
-  
-  - CAN circuit shall end at the Power Distribution Panel.  
-  
-  - Power Distribution Panel shall be equipped with a "Recepticle" type connector. 
+  - Twisted pair wires shall have at least 2 twists per inch of wire.
+  - Green wire shall be used for CAN Low.
+  - Yellow wire shall be used for CAN High.
+  - CAN wires shall be terminated using [JST SM](https://www.jst-mfg.com/product/pdf/eng/eSM.pdf) series connectors, with pins SYM-001T-P0.6 and SHF-001T-0.8BS.
+  - CAN wires shall be inserted into the connectors such that CAN High is Pin 1 and CAN Low is Pin 2.
+  - CAN circuit shall begin at the RIO or Robot Controller.
+  - RIO or other Robot controller shall be equipped with a "plug" type connector.
+  - All drive train controllers and any IMUs shall be wired into the CAN circuit immediately after the Robot Controller.
+  - CAN circuit shall end at the Power Distribution Panel.
+  - Power Distribution Panel shall be equipped with a "Recepticle" type connector.
 
 ### **_CAN ID Requirements_**
 
   - CAN ID 0 shall be reserved for the robot controller.
-  
   - CAN ID 200 shall be reserved for the Power Distribution Panel.
-  
   - CAN IDs 1-8 are reserved for the drivetrain.  
     - All drive motors shall be even CAN IDs.  
     - All steering motors shall be odd CAN IDs.  
     - The drive modules shall start with the front-left module with the lowest CAN IDs (1 and 2) and assign CAN IDs working counter clockwise and ending with the front right modules using the highest CAN IDs (7 and 8)
+      
 > [!TIP]
 >  - Example: Tank drive with 2 modules, each with 2 drive motors  
 >    -   Front Left motor uses ID 2  
@@ -64,16 +56,14 @@ This document is not currently fully inclusive of all wiring or programming requ
 >   -   Back Right module uses CAN ID 5 for steer motor, and CAN ID 6 for drive motor  
 >   -   Front Right module uses CAN ID 7 for steer motor, and CAN ID 8 for drive motor
    
-  - CAN ID 9 is reserved for the IMU or Gyro.
-  - CAN IDs 10-19 are reserved for future use.
-  - CAN IDs 20-69 are reserved for subsystems.
-    - Each subsystem shall use an independent group of 10 IDs
-    - Subsystems shall ID modules and sensors from lowest ID to highest from either Left to Right, Front to Back, Top to Bottom, CCW starting at front, or a combination of the 4 methods, whichever makes most sense.
-   
+- CAN ID 9 is reserved for the IMU or Gyro.
+- CAN IDs 10-19 are reserved for future use.
+- CAN IDs 20-69 are reserved for subsystems.
+  - Each subsystem shall use an independent group of 10 IDs
+  - Subsystems shall ID modules and sensors from lowest ID to highest from either Left to Right, Front to Back, Top to Bottom, CCW starting at front, or a combination of the 4 methods, whichever makes most sense.
 - All follower motor controllers shall follow a controller with a lower CAN ID than itself.
-
-  - The following table shall be followed to assign all CAN IDs.
-
+- The following table shall be followed to assign all CAN IDs.
+    
   |Assigned CAN ID|Module|
   |:------|--:|
   |0|Robot Controller|
@@ -95,8 +85,8 @@ This document is not currently fully inclusive of all wiring or programming requ
   |200|Power Distribution Panel|
 
 >[!NOTE]
->Any 3rd party products that are installed on the CAN Bus may require a specific CAN ID. In these cases, the programming team must agree on what changes to the CAN ID assignments are needed to accomodate the product.
-
+>Any 3<sup>rd</sup> party products that are installed on the CAN Bus may require a specific CAN ID. In these cases, the programming team must agree on what changes to the CAN ID assignments are needed to accomodate the product.
+  
 ## 3. Command Based Programming 
 ### **_Use Command Based Where Possible_**
 
@@ -124,7 +114,7 @@ This document is not currently fully inclusive of all wiring or programming requ
   - Simple commands shall be written as funtions in the subsystem class file.
 >[!TIP]
 >Simple commands will be structured similarily to this snippet
-> ```
+> ```java
 >  public Command exampleCommand(double speed) {
 >     return runOnce(
 >         () -> {
@@ -136,9 +126,17 @@ This document is not currently fully inclusive of all wiring or programming requ
   - Single Use commands shall be written as a lambda function where it is used.
 >[!TIP]
 >Single Use commands will be structured similarily to this snippet
-> ```
+> ```java
 >   runOnce(
 >      () -> {
 >         exampleSubsystem.setSpeed(0);
 >      });
 > ```
+
+- All subsystems shall have a default command set which will result in no movement when the controller is set down.
+>[!TIP]
+>A default command to achieve this may be setting motor speeds to 0, setting motor speed to a joystick axis, or a PID holding the actuator position.
+>
+>There may be other ways of accomplishing no movement that can be used.
+
+
